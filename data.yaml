@@ -1,0 +1,7 @@
+names:
+- plastic
+- paper
+- person
+nc: 3
+train: C:/yolo_/aug_test/data/train.txt
+val: C:/yolo_/aug_test/data/val.txt
