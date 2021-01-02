@@ -11,8 +11,8 @@ import codecs
 import cv2
 from glob import glob
 
-XML_EXT = '.xml'
-ENCODE_METHOD = 'utf-8'
+XML_EXT = ".xml"
+ENCODE_METHOD = "utf-8"
 
 ############################# Parameter ###########################################
 # data_location structure
@@ -24,17 +24,18 @@ ENCODE_METHOD = 'utf-8'
 # 한 폴더 안에 이미지(jpg), 라벨(xml), class정보(classes.txt)가 같이 있어야 합니다.
 
 # xml 폴더 경로 작성
-dirpath = './data/images/' # Absolute Path
+dirpath = "./data/images/"  # Absolute Path
 
-label_path = './data/labels/' # Absolute Path
+label_path = "./data/labels/"  # Absolute Path
 
-# classes.txt 경로 작성 
-classes_txt = './classes.txt' # Absolute Path
+# classes.txt 경로 작성
+classes_txt = "./classes.txt"  # Absolute Path
 
 # 이미지 형식 작성
 ext = ".jpg"
 
 ####################################################################################
+
 
 class PascalVocReader:
     def __init__(self, filepath):
@@ -52,10 +53,10 @@ class PascalVocReader:
         return self.shapes
 
     def addShape(self, label, bndbox, filename, difficult):
-        xmin = int(bndbox.find('xmin').text)
-        ymin = int(bndbox.find('ymin').text)
-        xmax = int(bndbox.find('xmax').text)
-        ymax = int(bndbox.find('ymax').text)
+        xmin = int(bndbox.find("xmin").text)
+        ymin = int(bndbox.find("ymin").text)
+        xmax = int(bndbox.find("xmax").text)
+        ymax = int(bndbox.find("ymax").text)
         points = [(xmin, ymin), (xmax, ymin), (xmax, ymax), (xmin, ymax)]
         self.shapes.append((label, points, filename, difficult))
 
@@ -63,23 +64,23 @@ class PascalVocReader:
         assert self.filepath.endswith(XML_EXT), "Unsupport file format"
         parser = etree.XMLParser(encoding=ENCODE_METHOD)
         xmltree = ElementTree.parse(self.filepath, parser=parser).getroot()
-        filename = xmltree.find('filename').text
-        path = xmltree.find('path').text
+        filename = xmltree.find("filename").text
+        path = xmltree.find("path").text
         try:
-            verified = xmltree.attrib['verified']
-            if verified == 'yes':
+            verified = xmltree.attrib["verified"]
+            if verified == "yes":
                 self.verified = True
         except KeyError:
             self.verified = False
 
-        for object_iter in xmltree.findall('object'):
+        for object_iter in xmltree.findall("object"):
             bndbox = object_iter.find("bndbox")
-            label = object_iter.find('name').text
+            label = object_iter.find("name").text
             # Add chris
 
             difficult = False
-            if object_iter.find('difficult') is not None:
-                difficult = bool(int(object_iter.find('difficult').text))
+            if object_iter.find("difficult") is not None:
+                difficult = bool(int(object_iter.find("difficult").text))
             self.addShape(label, bndbox, path, difficult)
         return True
 
@@ -97,7 +98,7 @@ if os.path.isfile(classes_txt):
     with open(classes_txt, "r") as f:
         class_list = f.read().strip().split()
         # print(class_list)
-        classes = {k : v for (v, k) in enumerate(class_list)}
+        classes = {k: v for (v, k) in enumerate(class_list)}
         # print(classes)
 
 
@@ -148,26 +149,31 @@ with open(dirpath + "/classes.txt", "w") as f:
         print(key)
 
 os.remove(dirpath + "/classes.txt")
-print('\nimages/classes.txt deleted\n')
+print("\nimages/classes.txt deleted\n")
 files = os.listdir(dirpath)
 
 
-moved_txt=0
+moved_txt = 0
 for file in files:
-    if 'txt' in file.lower() and os.path.isdir(label_path):
-        sh.move(dirpath+file, label_path)
-        moved_txt+=1
-          
+    if "txt" in file.lower() and os.path.isdir(label_path):
+        sh.move(dirpath + file, label_path)
+        moved_txt += 1
+
 del_check = input("Delete All XML files? : \nY | n  :  ")
 
 
-if del_check == 'y' or del_check == 'Y':
-    deleted_xml=0
-    for file in files:          
-        if 'xml' in file.lower() :
-            os.remove(dirpath+file)
-            deleted_xml+=1
-    print("\n{0} \'.xml\' files deleted \n\n".format(deleted_xml))
+if del_check == "y" or del_check == "Y":
+    deleted_xml = 0
+    for file in files:
+        if "xml" in file.lower():
+            os.remove(dirpath + file)
+            deleted_xml += 1
+    print("\n{0} '.xml' files deleted \n\n".format(deleted_xml))
 
-else: print('\n XML file didn\'t removed')
-print("{0} \'.txt\' files moved from /images/ directory to /labels/ directory \n\n".format(moved_txt))
+else:
+    print("\n XML file didn't removed")
+print(
+    "{0} '.txt' files moved from /images/ directory to /labels/ directory \n\n".format(
+        moved_txt
+    )
+)
