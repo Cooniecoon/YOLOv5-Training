@@ -2,20 +2,20 @@ import cv2
 import os
 
 ### 원본 폴더 경로 작성
-path = "../dataset/"
+path = "C:\\Users\\jeongseokoon\\AI-hub\\data\\phone\\"
 
 ### 리사이즈 이미지를 저장할 폴더 경로 작성
-save = "../data_1212/"
+save = "C:\\Users\\jeongseokoon\\AI-hub\\data\\original\\"
 
 pixel_X = 640
 pixel_Y = 640
 
 #! "image_rename"
-File_Name = "person_1212_"
+File_Name = "img_"
 
 
 def changeName(path, cName):
-    i = 0
+    i = 909
     for filename in os.listdir(path):
         print(path + filename, "=>", path + str(cName) + str(i) + ".jpg")
         os.rename(path + filename, path + str(cName) + str(i) + ".jpg")
