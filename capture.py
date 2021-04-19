@@ -1,6 +1,6 @@
 import cv2
 
-webcam = cv2.VideoCapture(0)
+webcam = cv2.VideoCapture(1)
 # webcam.set(cv2.CAP_PROP_AUTOFOCUS, 0)
 # webcam.set(28,200)
 
@@ -14,6 +14,6 @@ while True:
 
     if cv2.waitKey(1) == ord("c"):
 
-        cv2.imwrite("../hand/h_img_%d.jpg" % c, img=frame)
+        cv2.imwrite("C:\\Users\\jeongseokoon\\AI-hub\\data\\img_%d.jpg" % c, img=frame)
         print("chal kak", c)
         c += 1
