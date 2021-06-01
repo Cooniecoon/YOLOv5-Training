@@ -1,4 +1,4 @@
-﻿# YOLOv5 Custom Data 학습을 코드, 명령어 모음
+﻿# YOLOv5 Custom Data 학습을 위한 코드, 명령어 모음
 
 ### 1.데이터 수집
 - [capture.py](./capture.py)
